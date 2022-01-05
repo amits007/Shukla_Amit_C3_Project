@@ -2,11 +2,14 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class RestaurantTest {
     Restaurant restaurant;
+    List<Item> selectedItems = new ArrayList<>();
     //REFACTOR ALL THE REPEATED LINES OF CODE
     @BeforeEach
     public void resCreate(){
@@ -58,6 +61,23 @@ class RestaurantTest {
 
         assertThrows(itemNotFoundException.class,
                 ()->restaurant.removeFromMenu("French fries"));
+    }
+
+    // Failing Test Case
+    
+    @Test
+    public void menu_order_value_when_item_selected_from_menu(){
+        resCreate();
+        selectedItems.add(new Item("Sweet corn soup", 119));
+        assertEquals(119,restaurant.getOrderValue(selectedItems));
+    }
+
+    @Test
+    public void menu_order_value_when_all_item_selected_from_menu(){
+        int total = 388;
+        resCreate();
+        selectedItems = restaurant.getMenu();
+        assertEquals(total,restaurant.getOrderValue(selectedItems));
     }
     //<<<<<<<<<<<<<<<<<<<<<<<MENU>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 }
